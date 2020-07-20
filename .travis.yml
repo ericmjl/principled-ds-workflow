@@ -21,9 +21,9 @@ install:
   - conda install -c conda-forge mamba
 
   # Install everything
-  - bash install.sh
   - source $HOME/miniconda/etc/profile.d/conda.sh
-  - conda activate
+  - conda activate principled-ds-workflow
+  - bash install.sh
 
 script:
   # Build script goes here
