@@ -27,6 +27,7 @@ install:
 
 script:
   # Build script goes here
+  - which reveal-md
   - reveal-md slides.md --static
 
 deploy:
