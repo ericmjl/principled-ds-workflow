@@ -39,4 +39,3 @@ deploy:
   target_branch: gh-pages
   keep_history: false
   local_dir: _static
-  cleanup: true
