@@ -1,0 +1,8 @@
+name: principled-ds-workflow
+channels:
+- conda-forge
+dependencies:
+- python=3.8
+- conda
+- mamba
+- nodejs
