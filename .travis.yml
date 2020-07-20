@@ -22,8 +22,10 @@ install:
 
   # Install everything
   - source $HOME/miniconda/etc/profile.d/conda.sh
+  - mamba env create -f environment.yml || conda env create -f environment.yml
   - conda activate principled-ds-workflow
-  - bash install.sh
+  - npm install -g reveal-md
+
 
 script:
   # Build script goes here
