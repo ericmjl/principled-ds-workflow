@@ -1,4 +1,4 @@
-# Principled Data Science Workflow
+# _Modern_, Principled Data Science Workflow
 
 [Eric J. Ma][web]
 
@@ -8,13 +8,16 @@
 
 ## `About::Work`
 
-_I accelerate biological and chemical research using machine learning methods._
+_I accelerate biological and chemical research using statistical and machine learning methods._
 
 ----
 
 "Data scientist" at NIBR.
 
 I've played every role you can think of: protein engineer, data engineer, software engineer, data scientist, scientist who talks to leadership...
+
+----
+_I have struggled through bad workflows enough to share what I think are good workflows._
 
 ----
 
@@ -36,7 +39,7 @@ I've played every role you can think of: protein engineer, data engineer, softwa
 
 > Teaching applied network science
 
-Freely available for all [on the web][nams].
+<small>Freely available for all [on the web][nams].</small>
 
 [nams]: https://ericmjl.github.io/Network-Analysis-Made-Simple/
 
@@ -44,7 +47,9 @@ Freely available for all [on the web][nams].
 
 <img src="https://d2sofvawe08yqg.cloudfront.net/nams/hero2x?1594067864" width=300px></img>
 
-We have a [book][leanpub] you can purchase! (Also raffling two download codes for today's talk!)
+You can purchase an offline [book][leanpub]!
+
+<small>Also raffling two download codes for today's talk 😄</small>
 
 [leanpub]: http://leanpub.com/nams
 
@@ -54,19 +59,21 @@ We have a [book][leanpub] you can purchase! (Also raffling two download codes fo
 
 <a href="https://leanpub.com/tads"><img src="https://d2sofvawe08yqg.cloudfront.net/tads/hero2x?1594944988" width=300px></img></a>
 
-Come let us know if you're interested in reading it!
+Come [let us know][tads] if you're interested in reading it!
 
 [tads]: https://leanpub.com/tads
 
 ---
 
-## The Principles
+## Principled Data Science Workflow
 
 - Define impact
 - Sane conventions
 - Develop portably
 - Automate reproducibility
 - Define source of truth
+
+<small><i>Everything outside of building the model</i></small>
 
 ---
 
@@ -120,7 +127,7 @@ X belongs in the set of:
 ### What's the "latest status of analysis" update?
 
 - Where's the dashboard/web app that powers this analysis?
-- Is the analysis up-to-date, such that
+- Is the analysis up-to-date with the latest data?
 
 ----
 
@@ -150,7 +157,17 @@ X belongs in the set of:
 
 ----
 
+_I have unpublished work, unfinished things, because they didn't start with defined impact._
+
+----
+
 _Always, always_ define what impact looks like before you embark on a project.
+
+
+----
+
+- What decisions will be made?
+- What actions will be taken?
 
 ----
 
@@ -163,6 +180,10 @@ API?
 ```
 curl https://my.company.server/predict/
 ```
+
+[FastAPI] is a _superb_ tool for building APIs!
+
+[FastAPI]: https://fastapi.tiangolo.com
 
 ----
 
@@ -271,7 +292,7 @@ using code.
 ./
 |- .git/
 |- environment.yml
-|- src/
+|- src/   # LOOK HERE!
    |- proj_package/
    |- setup.py
 ```
@@ -293,7 +314,7 @@ Good software: "well-defined categories of things".
 |- src/
    |- proj_package/
    |- setup.py
-|- notebooks/
+|- notebooks/   # LOOK HERE!
 ```
 
 ----
@@ -307,9 +328,11 @@ Good software: "well-defined categories of things".
 |- src/
    |- proj_package/
    |- setup.py
-   |- tests/
+   |- tests/   # LOOK HERE!
 |- notebooks/
 ```
+
+Automatically test your code _and_ validate your data.
 
 ----
 
@@ -324,8 +347,10 @@ Good software: "well-defined categories of things".
    |- setup.py
    |- tests/
 |- notebooks/
-|- README.md
+|- README.md   # LOOK HERE!
 ```
+
+Explain what the project is all about!
 
 ----
 
@@ -341,7 +366,7 @@ Good software: "well-defined categories of things".
    |- tests/
 |- notebooks/
 |- README.md
-|- docs/
+|- docs/   # LOOK HERE!
 ```
 
 ----
@@ -375,14 +400,16 @@ your end product has a chance of being portable across any machine too.
 A sane baseline environment file:
 
 ```yaml
-name: my-project-name
+name: my-project
 channels:
 - conda-forge
 dependencies:
 - python=3.8
-- jupyter
+# Basic data science stack
+- jupyter>=2.0  # wherever possible, pin versions
+- jupyterlab
 - conda
-- mamba
+- mamba   # use mamba for fast conda environment solving!
 - ipython
 - ipykernel
 - numpy
@@ -390,6 +417,7 @@ dependencies:
 - scipy
 - pandas
 - pip
+# Code quality utilities
 - pre-commit
 - black
 - nbstripout
@@ -398,6 +426,7 @@ dependencies:
 - pycodestyle
 - pydocstyle
 - pip:
+  # Good for documentation!
   - mkdocs
   - mkdocs-material
   - mkdocstrings
@@ -410,7 +439,7 @@ Environment files don't worry about the operating system.
 
 ----
 
-If you need system-wide packages, you need a `Dockerfile`.
+If you need operating system-wide packages, you need a `Dockerfile`.
 
 ----
 
@@ -430,13 +459,15 @@ Modified from [here][essays].
 
 [essays]: https://github.com/ericmjl/essays-on-data-science/blob/master/.devcontainer/Dockerfile
 
-----
-
-Building an app? Dockerfile is probably necessary.
-
 ---
 
 ## Principled Workflow 4: Automate Reproducibility
+
+----
+
+Invest early in automation, saving keystrokes, and mental shortcuts to commonly used things.
+
+_They pay dividends later._
 
 ----
 
@@ -445,20 +476,19 @@ Building an app? Dockerfile is probably necessary.
 ----
 
 ```Makefile
-
-init:
+init:  # make init
     bash install.sh
 
-test:
+test:  # make test
     pytest -v --cov
 
-docs:
+docs:  # make docs
     mkdocs build
 
-train:
+train:  # make train
     python scripts/model_training.py
 
-app:
+app:  # make app
     streamlit run apps/app.py
 ```
 
@@ -470,9 +500,17 @@ Wrap commonly-executed bash commands inside a Makefile command so they are easy 
 
 Easily-executable commands make your Jenkins or Travis or Azure pipelines easy to develop.
 
+```yaml
+# .travis.yml
+# stuff above
+script:
+  - make test
+# stuff below
+```
+
 ----
 
-If the project has a defined "production" end-point, then everything before it must be made reliable.
+If the project has a defined "production" end-point, then everything before it _ought_ to be made reliable.
 
 ----
 
@@ -494,7 +532,7 @@ def test_data_loading():
 
 ----
 
-Schema validation with [pandera]:
+Schema validation with [pandera]. Say you have some data:
 
 ```python
 import pandas as pd
@@ -506,7 +544,11 @@ df = pd.DataFrame({
     "column2": [-1.3, -1.4, -2.9, -10.1, -20.4],
     "column3": ["value_1", "value_2", "value_3", "value_2", "value_1"],
 })
+```
 
+----
+
+```python
 # define schema
 schema = pa.DataFrameSchema({
     # Column 1 gets a "statistical support" check
@@ -528,6 +570,19 @@ print(validated_df)
 
 ----
 
+Use schema in tests:
+
+```python
+# tests/test_data.py
+from project_source.data import some_schema, load_some_data
+
+def test_load_some_data():
+    data = load_some_data()
+    some_schema.validate(data)  # test-time validation!
+```
+
+----
+
 More tools:
 
 - [Pandera][pandera]
@@ -535,6 +590,7 @@ More tools:
 
 
 [pandera]: https://pandera.readthedocs.io/en/stable/
+
 ----
 
 CI systems that automatically execute tests on every git commit give you confidence that source code is correct.
@@ -569,6 +625,8 @@ Excel is great for prototyping, but very quickly you should translate into code.
 ----
 
 Develop shortcut functions to your data.
+
+<small><i>This is an investment in saving keystrokes!</i></small>
 
 ----
 
@@ -693,7 +751,7 @@ Your project will move as far/fast/high as the the biggest limiting factor will 
 
 ----
 
-What are you held back by?
+What slows you down?
 
 <small>There's probably a software practice that you can adapt!</small>
 
@@ -701,31 +759,31 @@ What are you held back by?
 
 <small>Manually checking the same things?</small>
 
-Automate it!
+Automate with a script!
 
 ----
 
 <small>Data issues failing you?</small>
 
-Automate checks!
+Automate data validation!
 
 ----
 
 <small>Unstable copy/pasted code?</small>
 
-Refactor it!
+Refactor your code!
 
 ----
 
 <small>Environment can't be reproduced?</small>
 
-Declare it!
+Declare it with a file!
 
 ----
 
 <small>Can't remember how to do things?</small>
 
-Document it!
+Write documentation for it!
 
 ---
 
@@ -755,7 +813,6 @@ You build them in one-by-one.
 
 The time will come back to you many-fold.
 
-
 ----
 
 ### My "clients" won't give me the time to adopt these practices. What do we do?
@@ -768,4 +825,6 @@ Build the virtuous cycle.
 
 ----
 
-###
+## Thank you!
+
+https://ericmjl.github.io/
