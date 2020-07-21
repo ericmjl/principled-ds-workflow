@@ -4,6 +4,10 @@
 
 [web]: https://ericmjl.github.io/
 
+----
+
+https://ericmjl.github.io/principled-ds-workflow
+
 ---
 
 ## `About::Work`
